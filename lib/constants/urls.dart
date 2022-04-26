@@ -1,0 +1,1 @@
+const getNewsApi = 'https://newsapi.org/v2/everything?q=bitcoin&apiKey=764a28e842584050b799f9234ab0af5a';
