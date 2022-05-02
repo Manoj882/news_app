@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:news_app/screens/home_page.dart';
 
@@ -10,25 +12,28 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  bool isSkip = false;
   @override
   void initState() {
+    
     super.initState();
-
+    
+    if (!isSkip) {
+     
+        Timer(
+          const Duration(seconds: 5), () {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomePageScreen()));
+          }
+        );
+        } 
+        else{
+          skipSplashScreen();
+        }
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
-      Future.delayed(const Duration(seconds: 5)).then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const HomePageScreen(),
-        ),
-      );
-    });
-    return Scaffold(
+     return Scaffold(
       // appBar: AppBar(
       //   title: Text('We show news for you'),
       //   centerTitle: true,
@@ -70,36 +75,31 @@ class _SplashScreenState extends State<SplashScreen> {
                 height: 500,
                 width: 300,
               ),
-              ElevatedButton(
-                // onPressed: () async{
-                //    GeneralDialogBox().customLoadingDialog(context);
-                //   await Future.delayed(const Duration(seconds: 1),(){
-                //     Navigator.pop(context);
-                //     Navigator.of(context).push(
-                //     MaterialPageRoute(
-                //       builder: (_) => HomePageScreen(),
-                //     ),
-                //   );
-
-                //   });
-
-                // },
-
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (_) => const HomePageScreen(),
-                    ),
-                  );
-                },
+                
+                ElevatedButton(
+                
+                onPressed: skipSplashScreen,
+                
                 child: const Text(
                   'Skip',
                 ),
               ),
+              
             ],
           ),
         ),
       ),
     );
+  }
+
+  void skipSplashScreen(){
+    
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => const HomePageScreen(),
+        ),
+      );
+    
+
   }
 }
