@@ -1,16 +1,13 @@
-import 'dart:convert';
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:news_app/constants/constant.dart';
-import 'package:http/http.dart' as http;
-import 'package:news_app/constants/urls.dart';
-import 'package:news_app/models/news_model.dart';
-import 'package:news_app/services/api_service.dart';
+
+
 import 'package:provider/provider.dart';
 
 import '../provider/news_provider.dart';
-import 'news_screen.dart';
+
 
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -27,7 +24,7 @@ class HomePageScreen extends StatelessWidget {
         child: Center(
           child: Consumer<NewsProvider>(
             builder: ((context, data, child) {
-              return data.map.length == 0 && !data.error
+              return data.map.isEmpty && !data.error
                   ? const CircularProgressIndicator()
                   : data.error
                       ? Text(
