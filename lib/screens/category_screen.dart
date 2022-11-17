@@ -25,26 +25,29 @@ class _CategoryScreenState extends State<CategoryScreen> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
-            child: Consumer<NewsProvider>(builder: (context, data, child) {
-              return data.categoryData.isEmpty && !data.error
-                  ? const CircularProgressIndicator()
-                  : data.error
-                      ? Text(
-                          'Oops, something went wrong. ${data.errorMessage}',
-                          textAlign: TextAlign.center,
-                        )
-                      : ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: data.categoryData.length,
-                          itemBuilder: (context, index) {
-                            return CategoryNewsCard(
-                              newsData: data.categoryData['articles']
-                                  [index],
-                            );
-                          },
-                        );
-            }),
+            
+            child: Center(
+              child: Consumer<NewsProvider>(builder: (context, data, child) {
+                return data.categoryData.isEmpty && !data.error
+                    ? const CircularProgressIndicator()
+                    : data.error
+                        ? Text(
+                            'Oops, something went wrong. ${data.errorMessage}',
+                            textAlign: TextAlign.center,
+                          )
+                        : ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: data.categoryData.length,
+                            itemBuilder: (context, index) {
+                              return CategoryNewsCard(
+                                newsData: data.categoryData['articles']
+                                    [index],
+                              );
+                            },
+                          );
+              }),
+            ),
           ),
         ),
       ),
@@ -59,7 +62,7 @@ class CategoryNewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
@@ -75,8 +78,9 @@ class CategoryNewsCard extends StatelessWidget {
               left: 0,
               right: 0,
               bottom: 0,
+              
               child: Container(
-                padding: EdgeInsets.fromLTRB(
+                padding: const EdgeInsets.fromLTRB(
                   15,
                   15,
                   10,
@@ -95,9 +99,11 @@ class CategoryNewsCard extends StatelessWidget {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
                       '${newsData['title']}',
+                      maxLines: 3,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -106,6 +112,9 @@ class CategoryNewsCard extends StatelessWidget {
                     ),
                     Text(
                       '${newsData['description']}',
+                      maxLines: 3,
+                      textAlign: TextAlign.justify,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,

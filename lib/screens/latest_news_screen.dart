@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:news_app/provider/news_provider.dart';
 import 'package:provider/provider.dart';
-
 
 class LatestNewsScreen extends StatelessWidget {
   const LatestNewsScreen({Key? key}) : super(key: key);
@@ -11,14 +9,16 @@ class LatestNewsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<NewsProvider>().fetchUSNewsData;
     return Container(
-                child: Consumer<NewsProvider>(
-                  builder: (context,data,child){
-                    return data.latestNews.isEmpty && !data.error
-                    ? const CircularProgressIndicator()
-                    : data.error
-                    ? Text('Oops, something went wrong. ${data.errorMessage}', textAlign: TextAlign.center,)
-                    :  ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+      child: Consumer<NewsProvider>(builder: (context, data, child) {
+        return data.latestNews.isEmpty && !data.error
+            ? const CircularProgressIndicator()
+            : data.error
+                ? Text(
+                    'Oops, something went wrong. ${data.errorMessage}',
+                    textAlign: TextAlign.center,
+                  )
+                : ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: data.latestNews.length,
                     itemBuilder: (context, index) {
@@ -27,12 +27,9 @@ class LatestNewsScreen extends StatelessWidget {
                       );
                     },
                   );
-                  }
-                ),
-              );
+      }),
+    );
   }
-
-
 }
 
 class LatestNewsCard extends StatelessWidget {
@@ -41,59 +38,127 @@ class LatestNewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+    // return Container(
+    //   margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    //   child: Card(
+    //     shape: RoundedRectangleBorder(
+    //       borderRadius: BorderRadius.circular(15),
+    //     ),
+    //     elevation: 1,
+    //     child: Stack(
+    //       children: [
+    //         ClipRRect(
+    //           borderRadius: BorderRadius.circular(15),
+    //           child: Image.network('${latestNews['urlToImage']}'),
+    //         ),
+    //         Positioned(
+    //           left: 0,
+    //           right: 0,
+    //           bottom: 0,
+    //           child: Container(
+    //             padding: EdgeInsets.fromLTRB(
+    //               15,
+    //               15,
+    //               10,
+    //               8,
+    //             ),
+    //             decoration: BoxDecoration(
+    //               borderRadius: BorderRadius.circular(15),
+    //               gradient: LinearGradient(
+    //                 colors: [
+    //                   Colors.black12.withOpacity(0),
+    //                   Colors.black,
+    //                 ],
+    //                 begin: Alignment.topCenter,
+    //                 end: Alignment.bottomCenter,
+    //               ),
+    //             ),
+    //             child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 Text(
+    //                   '${latestNews['title']}',
+    //                   maxLines: 2,
+    //                   overflow: TextOverflow.ellipsis,
+    //                   style: TextStyle(
+    //                     color: Colors.white,
+    //                     fontSize: 18,
+    //                     fontWeight: FontWeight.bold,
+    //                   ),
+    //                 ),
+    //                 Text(
+    //                   '${latestNews['description']}',
+    //                   maxLines: 3,
+    //                   style: TextStyle(
+    //                     color: Colors.white,
+    //                     fontSize: 12,
+    //                   ),
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Container(
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(25),
         ),
-        elevation: 1,
-        child: Stack(
+        child: Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Image.network('${latestNews['urlToImage']}'),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
+            Expanded(
+              flex: 5,
               child: Container(
-                padding: EdgeInsets.fromLTRB(
-                  15,
-                  15,
-                  10,
-                  8,
-                ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.black12.withOpacity(0),
-                      Colors.black,
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                height: 120,
+                width: 120,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    '${latestNews['urlToImage']}',
+                    fit: BoxFit.cover,
                   ),
                 ),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              flex: 7,
+              child: Container(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
                       '${latestNews['title']}',
+                      textAlign: TextAlign.justify,
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black54,
                       ),
                     ),
+                    const SizedBox(height: 5,),
                     Text(
                       '${latestNews['description']}',
+                      textAlign: TextAlign.start,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
+                        color: Colors.black38,
                       ),
                     ),
+                    
                   ],
                 ),
               ),
