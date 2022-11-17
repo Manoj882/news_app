@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/constants/constant.dart';
+import 'package:news_app/models/news_model.dart';
 import 'package:news_app/screens/category_screen.dart';
 import 'package:news_app/screens/latest_news_screen.dart';
+import 'package:news_app/screens/wev_views_screen.dart';
 
 import 'package:provider/provider.dart';
 
@@ -37,7 +39,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
         onRefresh: () async {},
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          
           child: Column(
             children: [
               Container(
@@ -82,7 +83,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                             MaterialPageRoute(
                               builder: (context) =>
                                   CategoryScreen(newsCategoryTitle: value),
-                              ),
+                            ),
                           );
                         },
                         decoration: const InputDecoration(
@@ -148,7 +149,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   textAlign: TextAlign.center,
                                 )
                               : Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 15),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 15),
                                   child: CarouselSlider.builder(
                                     carouselController:
                                         buttonCarouselController,
@@ -164,8 +166,22 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                     itemCount: data.map.length,
                                     itemBuilder: (BuildContext context,
                                         int itemIndex, int pageViewIndex) {
-                                      return NewsCard(
-                                        map: data.map['articles'][itemIndex],
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => WebViewsScreen(
+                                                newsUrl: data.map['articles'][itemIndex]['url'],
+                                            
+                                              ),
+                                            ),
+                                          );
+                                          
+                                        },
+                                        child: NewsCard(
+                                          map: data.map['articles'][itemIndex],
+                                        ),
                                       );
                                     },
                                   ),
@@ -185,7 +201,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             'LATEST NEWS',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -194,12 +210,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           ),
                           TextButton(
                             onPressed: () {},
-                            child: Text('Show More...'),
+                            child: const Text('Show More...'),
                           ),
                         ],
                       ),
                     ),
-                    LatestNewsScreen(),
+                    const LatestNewsScreen(),
                   ],
                 ),
               ),

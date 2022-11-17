@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/provider/news_provider.dart';
+import 'package:news_app/screens/wev_views_screen.dart';
 import 'package:provider/provider.dart';
 
 class LatestNewsScreen extends StatelessWidget {
@@ -22,8 +23,20 @@ class LatestNewsScreen extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: data.latestNews.length,
                     itemBuilder: (context, index) {
-                      return LatestNewsCard(
-                        latestNews: data.latestNews['articles'][index],
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => WebViewsScreen(
+                                newsUrl: data.latestNews['articles'][index]['url'],
+                              ),
+                            ),
+                          );
+                        },
+                        child: LatestNewsCard(
+                          latestNews: data.latestNews['articles'][index],
+                        ),
                       );
                     },
                   );
@@ -38,75 +51,10 @@ class LatestNewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Container(
-    //   margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-    //   child: Card(
-    //     shape: RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.circular(15),
-    //     ),
-    //     elevation: 1,
-    //     child: Stack(
-    //       children: [
-    //         ClipRRect(
-    //           borderRadius: BorderRadius.circular(15),
-    //           child: Image.network('${latestNews['urlToImage']}'),
-    //         ),
-    //         Positioned(
-    //           left: 0,
-    //           right: 0,
-    //           bottom: 0,
-    //           child: Container(
-    //             padding: EdgeInsets.fromLTRB(
-    //               15,
-    //               15,
-    //               10,
-    //               8,
-    //             ),
-    //             decoration: BoxDecoration(
-    //               borderRadius: BorderRadius.circular(15),
-    //               gradient: LinearGradient(
-    //                 colors: [
-    //                   Colors.black12.withOpacity(0),
-    //                   Colors.black,
-    //                 ],
-    //                 begin: Alignment.topCenter,
-    //                 end: Alignment.bottomCenter,
-    //               ),
-    //             ),
-    //             child: Column(
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: [
-    //                 Text(
-    //                   '${latestNews['title']}',
-    //                   maxLines: 2,
-    //                   overflow: TextOverflow.ellipsis,
-    //                   style: TextStyle(
-    //                     color: Colors.white,
-    //                     fontSize: 18,
-    //                     fontWeight: FontWeight.bold,
-    //                   ),
-    //                 ),
-    //                 Text(
-    //                   '${latestNews['description']}',
-    //                   maxLines: 3,
-    //                   style: TextStyle(
-    //                     color: Colors.white,
-    //                     fontSize: 12,
-    //                   ),
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Container(
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(25),
@@ -130,7 +78,7 @@ class LatestNewsCard extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
@@ -148,7 +96,9 @@ class LatestNewsCard extends StatelessWidget {
                         color: Colors.black54,
                       ),
                     ),
-                    const SizedBox(height: 5,),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     Text(
                       '${latestNews['description']}',
                       textAlign: TextAlign.start,
@@ -158,7 +108,6 @@ class LatestNewsCard extends StatelessWidget {
                         color: Colors.black38,
                       ),
                     ),
-                    
                   ],
                 ),
               ),

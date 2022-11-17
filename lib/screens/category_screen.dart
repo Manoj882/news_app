@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/screens/wev_views_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/news_provider.dart';
@@ -25,7 +26,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
-            
             child: Center(
               child: Consumer<NewsProvider>(builder: (context, data, child) {
                 return data.categoryData.isEmpty && !data.error
@@ -40,9 +40,20 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             shrinkWrap: true,
                             itemCount: data.categoryData.length,
                             itemBuilder: (context, index) {
-                              return CategoryNewsCard(
-                                newsData: data.categoryData['articles']
-                                    [index],
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => WebViewsScreen(
+                                        newsUrl: data.categoryData['articles'][index]['url'],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: CategoryNewsCard(
+                                  newsData: data.categoryData['articles'][index],
+                                ),
                               );
                             },
                           );
@@ -78,7 +89,6 @@ class CategoryNewsCard extends StatelessWidget {
               left: 0,
               right: 0,
               bottom: 0,
-              
               child: Container(
                 padding: const EdgeInsets.fromLTRB(
                   15,

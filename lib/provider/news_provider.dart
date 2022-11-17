@@ -35,8 +35,6 @@ class NewsProvider extends ChangeNotifier {
         _map = jsonDecode(response.body);
         _error = false;
 
-       
-      
       } catch(ex){
         _error = true;
         _errorMessage = ex.toString();
